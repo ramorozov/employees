@@ -6,28 +6,41 @@ class EmployeesListItem extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            increase: false
+            increase: false,
+            onReadyIncrease: false
         }
     }
 
+    //При клике на печеньку выделяет сотрудника другим цветом
     onIncrease = () => {
         this.setState(({increase}) => ({
             increase: !increase
         }))
     }
 
+    //При клике на сотрудника ему устанавливается звездочка
+    onReadyIncrease = () => {
+        this.setState(({onReadyIncrease}) => ({
+            onReadyIncrease: !onReadyIncrease
+        }))
+    }
+
     render() {
         const {name, salary} = this.props;
-        const {increase} = this.state;
-        //Выделяем другим цветом сотрудника для премирования 
+        const {increase, onReadyIncrease} = this.state;
+        //Выделяем другим цветом сотрудника для премирования и устанавливаем звездочку
         let classNames = "list-group-item d-flex justify-content-between";
         if (increase){
             classNames += ' increase';
         }
+        if (onReadyIncrease){
+            classNames += ' like';            
+        }        
     
         return (
             <li className={classNames}>
-                <span className="list-group-item-label">{name}</span>
+                <span className="list-group-item-label"
+                onClick={this.onReadyIncrease}>{name}</span>
                 <input type="text" className="list-group-item-input" defaultValue={salary + '$'}/>
                 <div className='d-flex justify-content-center align-items-center'>
                     <button type="button"
